@@ -441,6 +441,7 @@ SCSFExport scsf_DirectionalChange3(SCStudyInterfaceRef sc)
 
 		sc.BuyEntry(order);
 	}
+	//test ob sierra chart meine änderungen erkennt
 }
 
 
