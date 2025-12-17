@@ -1,9 +1,9 @@
 {
   "Version": 1,
-  "WorkspaceRootPath": "C:\\Users\\Admin\\source\\repos\\Flameflr\\Sierrachart-Algorithmus-\\",
+  "WorkspaceRootPath": "C:\\SierraChart\\ACS_Source\\MyGitRepo\\Flameflr\\Sierrachart-Algorithmus-\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\Admin\\source\\repos\\Flameflr\\Sierrachart-Algorithmus-\\firstprojekt3.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\SierraChart\\ACS_Source\\MyGitRepo\\Flameflr\\Sierrachart-Algorithmus-\\firstprojekt3.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
       "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:firstprojekt3.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
     }
   ],
@@ -24,11 +24,11 @@
               "$type": "Document",
               "DocumentIndex": 0,
               "Title": "firstprojekt3.cpp",
-              "DocumentMoniker": "C:\\Users\\Admin\\source\\repos\\Flameflr\\Sierrachart-Algorithmus-\\firstprojekt3.cpp",
+              "DocumentMoniker": "C:\\SierraChart\\ACS_Source\\MyGitRepo\\Flameflr\\Sierrachart-Algorithmus-\\firstprojekt3.cpp",
               "RelativeDocumentMoniker": "firstprojekt3.cpp",
-              "ToolTip": "C:\\Users\\Admin\\source\\repos\\Flameflr\\Sierrachart-Algorithmus-\\firstprojekt3.cpp",
+              "ToolTip": "C:\\SierraChart\\ACS_Source\\MyGitRepo\\Flameflr\\Sierrachart-Algorithmus-\\firstprojekt3.cpp",
               "RelativeToolTip": "firstprojekt3.cpp",
-              "ViewState": "AgIAAJgBAAAAAAAAAAAAALsBAAAMAAAAAAAAAA==",
+              "ViewState": "AgIAAJgBAAAAAAAAAAAAALsBAAAwAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000677|",
               "WhenOpened": "2025-12-17T16:57:40.041Z",
               "EditorCaption": ""
