@@ -3,4 +3,4 @@ strategy function components:
 - high frequency strategy
 - support and reistence
 - depth of market data
-- multitestet support and resistence
+- multitestet support and resistence -> only if the zone got touched at least 2 times the zone is valid and can be used
