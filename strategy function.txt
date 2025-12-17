@@ -1,0 +1,6 @@
+strategy function components:
+
+- high frequency strategy
+- support and reistence
+- depth of market data
+- multitestet support and resistence
