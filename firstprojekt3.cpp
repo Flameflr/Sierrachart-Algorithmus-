@@ -74,6 +74,40 @@ bool WasSupportBroken(const bottom& b, SCStudyInterfaceRef sc)
 		// Wurde das bottom gebrochen?
 		if (sc.Close[i] < b.tmp_min)
 			return true;
+
+		
+	}
+	return false;
+}
+
+
+bool MultiTouchedSupport(const bottom& b, SCStudyInterfaceRef sc)
+{
+	float multiSup_close = b.tmp_close;
+	SCDateTime bottomDate = sc.BaseDateTimeIn[b.i].GetDate();
+
+	for (int i = b.i + 1; i <= sc.Index; i++)
+	{
+		// Zeit extrahieren
+		SCDateTime dt = sc.BaseDateTimeIn[i];
+
+		if (dt.GetDate() != bottomDate)
+			continue;
+
+		int hour = dt.GetHour();
+		int minute = dt.GetMinute();
+
+		bool inSession =
+			(hour > 15 || (hour == 15 && minute >= 30)) &&
+			(hour < 20);
+
+		if (!inSession)
+			continue;
+
+		if (i != (b.tmp_min_i + 1) && sc.Low[i] <= multiSup_close)
+			return true;
+
+
 	}
 	return false;
 }
@@ -357,6 +391,54 @@ SCSFExport scsf_DirectionalChange3(SCStudyInterfaceRef sc)
 			validBottoms.push_back(&b);
 	}
 
+	//----------multi tested supports/resistances und deren Zeichnungen----------//
+
+	// multi tested resistance
+
+	std::vector<const bottom*> multiTestedValidBottoms;
+	
+	for (const bottom* b : validBottoms)
+	{
+		if (b && MultiTouchedSupport(*b, sc))
+		{
+			multiTestedValidBottoms.push_back(b);
+		}
+	}
+
+	// Zeichnungen der Zonen
+
+	sc.DeleteACSChartDrawing(sc.ChartNumber, TOOL_DELETE_CHARTDRAWING, 300000);
+
+	for (const bottom* b : multiTestedValidBottoms)
+	{
+		if (!b) continue;
+
+		s_UseTool extRect;
+		extRect.Clear();
+		extRect.ChartNumber = sc.ChartNumber;
+		extRect.DrawingType = DRAWING_RECTANGLE_EXT_HIGHLIGHT;
+		extRect.AddMethod = UTAM_ADD_OR_ADJUST;
+		extRect.LineNumber = 300000;
+
+		// Startposition
+		extRect.BeginIndex = b->tmp_min_i;
+		extRect.BeginValue = b->tmp_min;  // untere Grenze
+		extRect.EndValue = b->tmp_close;  // obere Grenze
+
+		// Style
+		extRect.LineWidth = 2;
+		extRect.Color = RGB(0, 255, 0);
+		extRect.TransparencyLevel = 50;
+		extRect.UseRelativeVerticalValues = false;
+
+		extRect.ExtendLeft = 1;
+
+	
+		sc.UseTool(extRect);
+	}
+
+
+
 	
 	// klelinsten gültigen potenzielen Widerstand über aktuellem Preis finden
 	
@@ -434,14 +516,14 @@ SCSFExport scsf_DirectionalChange3(SCStudyInterfaceRef sc)
 		order.OrderType = SCT_ORDERTYPE_MARKET;
 
 		order.AttachedOrderStop1Type = SCT_ORDERTYPE_STOP;
-		order.Stop1Offset = (close - potentialsupport);
+		order.Stop1Offset = (close - minpotentialsupport);
 
 		order.AttachedOrderTarget1Type = SCT_ORDERTYPE_LIMIT;
 		order.Target1Offset = 200;
 
 		sc.BuyEntry(order);
 	}
-	//zweiter test ob sierra chart meine änderungen erkennt
+
 }
 
 
