@@ -356,12 +356,12 @@ SCSFExport scsf_DirectionalChange3(SCStudyInterfaceRef sc)
 		if (!WasSupportBroken(b, sc))
 			validBottoms.push_back(&b);
 	}
-	
+
 	
 	// klelinsten gültigen potenzielen Widerstand über aktuellem Preis finden
 	
-	float potentialresistance = 0.0f;
-	float PotRes_close = 0.0f;
+	float minpotentialresistance = 0.0f;
+	float MinRes_close = 0.0f;
 	
 	if (!validTops.empty())
 	{
@@ -381,13 +381,13 @@ SCSFExport scsf_DirectionalChange3(SCStudyInterfaceRef sc)
 	
 		if (it_res != validTops.end()) // validTops.end != der letzte Wert in validTops, sondern stellt sicher,
 		{ 								// dass der Iterator nicht auf das Ende zeigt, also tatsächlich ein gültiges Element gefunden wurde
-			potentialresistance = (*it_res)->tmp_max;
-			PotRes_close = (*it_res)->tmp_close;
+			minpotentialresistance = (*it_res)->tmp_max;
+			MinRes_close = (*it_res)->tmp_close;
 		}
 	}
 	
-	float potentialsupport = 0.0f;
-	float PotSup_close = 0.0f;
+	float minpotentialsupport = 0.0f;
+	float MinSup_close = 0.0f;
 
 	if (!validBottoms.empty())
 	{
@@ -407,13 +407,13 @@ SCSFExport scsf_DirectionalChange3(SCStudyInterfaceRef sc)
 
 		if (it_sup != validBottoms.end())
 		{ 								
-			potentialsupport = (*it_sup)->tmp_min;
-			PotSup_close = (*it_sup)->tmp_close;
+			minpotentialsupport = (*it_sup)->tmp_min;
+			MinSup_close = (*it_sup)->tmp_close;
 		}
 	}
 
 	//Überprüfung der Widerstände/Supports
-    msg.Format("up_zig = %d SMA1 = %f SMA2 = %f der potentielle Widerstand ist = %f bis %f der potentielle Support ist = %f bis %f",up_zig, SMA1, SMA2, potentialresistance, PotRes_close, potentialsupport, PotSup_close);
+    msg.Format("up_zig = %d SMA1 = %f SMA2 = %f der potentielle Widerstand ist = %f bis %f der potentielle Support ist = %f bis %f",up_zig, SMA1, SMA2, minpotentialresistance, MinRes_close, minpotentialsupport, MinSup_close);
     sc.AddMessageToLog(msg, 0);
 
 
@@ -426,7 +426,7 @@ SCSFExport scsf_DirectionalChange3(SCStudyInterfaceRef sc)
 	sc.GetTradePosition(pos);
 
 	//Long entry
-	if (close > PotSup_close && low < PotSup_close && pos.PositionQuantity == 0)
+	if (close > MinSup_close && low < MinSup_close && pos.PositionQuantity == 0)
 	{
 		s_SCNewOrder order;
 
@@ -443,5 +443,6 @@ SCSFExport scsf_DirectionalChange3(SCStudyInterfaceRef sc)
 	}
 	//zweiter test ob sierra chart meine änderungen erkennt
 }
+
 
 
