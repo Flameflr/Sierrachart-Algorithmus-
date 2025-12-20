@@ -81,10 +81,27 @@ bool WasSupportBroken(const bottom& b, SCStudyInterfaceRef sc)
 }
 
 
-bool MultiTouchedSupport(const bottom& b, SCStudyInterfaceRef sc)
+bool MultiTouchedSupport(const bottom& b, const std::vector<top>& tops, SCStudyInterfaceRef sc)
 {
 	float multiSup_close = b.tmp_close;
 	SCDateTime bottomDate = sc.BaseDateTimeIn[b.i].GetDate();
+	int first_valid_tmp_max_i;
+
+	//Iterator um kleinsten Wert in tops über b.i zu finden
+	auto it = std::upper_bound(
+		tops.begin(),
+		tops.end(),
+		b.i,
+		[](int value, const top& t)
+		{
+			return value < t.tmp_max_i;
+		}
+	);
+
+	if (it == tops.end())
+		return false;
+
+	first_valid_tmp_max_i = it->tmp_max_i;
 
 	for (int i = b.i + 1; i <= sc.Index; i++)
 	{
@@ -104,7 +121,8 @@ bool MultiTouchedSupport(const bottom& b, SCStudyInterfaceRef sc)
 		if (!inSession)
 			continue;
 
-		if (i != (b.tmp_min_i + 1) && sc.Low[i] <= multiSup_close)
+
+		if (i >= first_valid_tmp_max_i && sc.Low[i] <= multiSup_close)
 			return true;
 
 
@@ -399,7 +417,7 @@ SCSFExport scsf_DirectionalChange3(SCStudyInterfaceRef sc)
 	
 	for (const bottom* b : validBottoms)
 	{
-		if (b && MultiTouchedSupport(*b, sc))
+		if (tops && !tops->empty() && b && MultiTouchedSupport(*b, *tops, sc))
 		{
 			multiTestedValidBottoms.push_back(b);
 		}
